@@ -54,29 +54,6 @@ npm start         # untuk production
 GET http://localhost:3000/api/medications
 ```
 
-## Deploy ke Vercel
-
-1. Login Vercel
-
-```bash
-npm i -g vercel
-vercel login
-```
-
-2. Deploy project
-
-```bash
-vercel
-```
-
-3. Tambahkan **Environment Variables** di Vercel:
-
-- `SUPABASE_URL` → Supabase URL
-- `SUPABASE_KEY` → Supabase anon key
-- `PORT` → (opsional, default 3000)
-
-Setelah deploy, API bisa diakses dari URL Vercel.
-
 ## Struktur Project
 
 ```
@@ -88,6 +65,39 @@ src/
        └─ supabaseClient.js
 package.json
 .env.example
+```
+
+## export collections on postman
+
+- Buka postman
+- Import file `praktikum-ppb-1.postman_collection.json`
+- Jalankan collection
+
+## query
+
+```
+create table categories (
+  id uuid primary key default gen_random_uuid(),
+  name text not null
+);
+
+create table suppliers (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  phone text,
+  email text
+);
+
+create table medications (
+  id uuid primary key default gen_random_uuid(),
+  sku text unique,
+  name text not null,
+  description text,
+  category_id uuid references categories(id),
+  supplier_id uuid references suppliers(id),
+  price numeric(12,2) default 0,
+  quantity integer default 0
+);
 ```
 
 ## Catatan
